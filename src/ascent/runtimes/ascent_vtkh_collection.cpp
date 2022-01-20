@@ -163,7 +163,7 @@ std::string VTKHCollection::field_topology(const std::string field_name) {
   m[1] = (int) rank;
   MaxLoc maxloc_res;
   std::cout << "Rank and value: " << m[1] << " " << m[0] << std::endl;
-  MPI_Allreduce( &m, &m1, 1, MPI_2INT, MPI_MAXLOC, mpi_comm);
+  MPI_Allreduce( m, m1, 1, MPI_2INTEGER, MPI_MAXLOC, mpi_comm);
 
   conduit::Node msg;
   msg["topo"] = topo_name;
