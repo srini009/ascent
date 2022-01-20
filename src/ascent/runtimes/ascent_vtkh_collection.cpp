@@ -183,11 +183,11 @@ std::string VTKHCollection::field_topology(const std::string field_name) {
   }
 
   MPI_Bcast(&max_index, 1, MPI_INT, 0, mpi_comm);
-  std::cout < "Max index after broadcast is: " << max_index << std::endl;
+  std::cout << "Max index after broadcast is: " << max_index << std::endl;
 
   conduit::Node msg;
   msg["topo"] = topo_name;
-  conduit::relay::mpi::broadcast_using_schema(msg, m2, mpi_comm);
+  conduit::relay::mpi::broadcast_using_schema(msg, max_index, mpi_comm);
 
   if(!msg["topo"].dtype().is_string())
   {
