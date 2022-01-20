@@ -146,9 +146,10 @@ std::string VTKHCollection::field_topology(const std::string field_name) {
   // but exists somewhere, we need to figure out what
   // that name is for all ranks so all ranks
   // can run the same code at the same time, avoiding deadlock
-  int rank;
+  int rank, size;
   MPI_Comm mpi_comm = MPI_Comm_f2c(vtkh::GetMPICommHandle());
   MPI_Comm_rank(mpi_comm, &rank);
+  MPI_Comm_size(mpi_comm, &size);
 
   struct MaxLoc
   {
@@ -160,17 +161,29 @@ std::string VTKHCollection::field_topology(const std::string field_name) {
   MaxLoc maxloc = {(double)topo_name.length(), rank};
 
   int m[2] = {0, 0};
-  int m1[2] = {0, 0};
-  int m2 = 0;
   
   m[0] = (int)topo_name.length();
   m[1] = (int) rank;
   MaxLoc maxloc_res;
-  std::cout << "Rank and value: " << m[1] << " " << m[0] << std::endl;
+  std::cout << "Rank and value and size: " << m[1] << " " << m[0] << " " << size << std::endl;
 
-  MPI_Reduce(m, m1, 1, MPI_2INTEGER, MPI_MAXLOC, 0, mpi_comm);
-  m2 = m1[1];
-  MPI_Bcast(&m2, 1, MPI_INT, 0, mpi_comm);
+  int *m3 = (int*)calloc(size, sizeof(int));
+
+  MPI_Barrier(mpi_comm);
+  std::cout << "Rank gets here: " << rank << std::endl;
+
+  MPI_Gather(&m[0], 1, MPI_INT, m3, 1, MPI_INT, 0, mpi_comm);
+  int max_index = 0;
+
+  if(rank == 0) {
+	  for(int i = 0; i < size; i++) {
+		  if(m3[i] > m3[max_index])
+			  max_index = i;
+	  }
+  }
+
+  MPI_Bcast(&max_index, 1, MPI_INT, 0, mpi_comm);
+  std::cout < "Max index after broadcast is: " << max_index << std::endl;
 
   conduit::Node msg;
   msg["topo"] = topo_name;
