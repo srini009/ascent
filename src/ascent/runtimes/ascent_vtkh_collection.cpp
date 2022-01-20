@@ -158,7 +158,7 @@ std::string VTKHCollection::field_topology(const std::string field_name) {
 
   // there is no MPI_INT_INT so shove the "small" size into double
   MaxLoc maxloc = {(double)topo_name.length(), rank};
-  int m[2], m1;
+  int m[2], m1[2];
   m[0] = (int)topo_name.length();
   m[1] = (int) rank;
   MaxLoc maxloc_res;
@@ -166,7 +166,7 @@ std::string VTKHCollection::field_topology(const std::string field_name) {
 
   conduit::Node msg;
   msg["topo"] = topo_name;
-  conduit::relay::mpi::broadcast_using_schema(msg, m[1], mpi_comm);
+  conduit::relay::mpi::broadcast_using_schema(msg, m1[1], mpi_comm);
 
   if(!msg["topo"].dtype().is_string())
   {
