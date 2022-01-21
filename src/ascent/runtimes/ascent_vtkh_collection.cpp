@@ -159,35 +159,12 @@ std::string VTKHCollection::field_topology(const std::string field_name) {
 
   // there is no MPI_INT_INT so shove the "small" size into double
   MaxLoc maxloc = {(double)topo_name.length(), rank};
-
-  int m[2] = {0, 0};
-  
-  m[0] = (int)topo_name.length();
-  m[1] = (int) rank;
   MaxLoc maxloc_res;
-  std::cout << "Rank and value and size: " << m[1] << " " << m[0] << " " << size << std::endl;
-
-  int *m3 = (int*)calloc(size, sizeof(int));
-
-  MPI_Barrier(mpi_comm);
-  std::cout << "Rank gets here: " << rank << std::endl;
-
-  MPI_Gather(&m[0], 1, MPI_INT, m3, 1, MPI_INT, 0, mpi_comm);
-  int max_index = 0;
-
-  if(rank == 0) {
-	  for(int i = 0; i < size; i++) {
-		  if(m3[i] > m3[max_index])
-			  max_index = i;
-	  }
-  }
-
-  MPI_Bcast(&max_index, 1, MPI_INT, 0, mpi_comm);
-  std::cout << "Max index after broadcast is: " << max_index << std::endl;
+  MPI_Allreduce(&maxloc, &maxloc_res, 1, MPI_DOUBLE_INT, MPI_MAXLOC, mpi_comm);
 
   conduit::Node msg;
   msg["topo"] = topo_name;
-  conduit::relay::mpi::broadcast_using_schema(msg, max_index, mpi_comm);
+  conduit::relay::mpi::broadcast_using_schema(msg, maxloc_res.rank, mpi_comm);
 
   if(!msg["topo"].dtype().is_string())
   {
