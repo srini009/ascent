@@ -94,7 +94,8 @@ install(FILES ASCENT_README.md
 
 if(MPI_FOUND)
 
-    set(lulesh_par_deps ascent_mpi mpi)
+    set(lulesh_par_deps ascent_mpi mpi PkgConfig::AMS_CLIENT PkgConfig::UUID nlohmann_json::nlohmann_json PkgConfig::TCLAP)
+    #include_directories(lulesh_par_deps ${AMS_CLIENT_INCLUDE_DIRS} /gpfs/mira-home/sramesh/spack/opt/spack/cray-cnl7-haswell/gcc-9.3.0/nlohmann-json-3.10.4-ik7ryghpxrenvwdu4jn5t6ord6ilgrcw/include /gpfs/mira-home/sramesh/spack/opt/spack/cray-cnl7-haswell/gcc-9.3.0/conduit-develop-rxcmkcfq2r2zjjy7pqnuw3rt2tnagpnl/include /gpfs/mira-home/sramesh/spack/opt/spack/cray-cnl7-haswell/gcc-9.3.0/conduit-develop-rxcmkcfq2r2zjjy7pqnuw3rt2tnagpnl/include/conduit /gpfs/mira-home/sramesh/spack/opt/spack/cray-cnl7-haswell/gcc-9.3.0/ascent-develop-vb4lsrr7a62xmuwwwn5c3dc6ppaidi5h/include/ascent /gpfs/mira-home/sramesh/spack/opt/spack/cray-cnl7-haswell/gcc-9.3.0/libuuid-1.0.3-a6a2mzpneqirfzugmiduv5zxfj6653qw/include)
     if(OPENMP_FOUND)
            list(APPEND lulesh_par_deps openmp)
     endif()

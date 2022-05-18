@@ -70,6 +70,14 @@ option(ENABLE_UTILS       "Build Utilities"           ON)
 option(ENABLE_LOGGING     "Enabe data logging"        OFF)
 option(ENABLE_DOCS        "Build Documentation"       ON)
 
+#AMS
+find_package(PkgConfig REQUIRED)
+find_package (thallium REQUIRED)
+find_package (nlohmann_json REQUIRED)
+pkg_check_modules(AMS_CLIENT REQUIRED IMPORTED_TARGET ams-client)
+pkg_check_modules(TCLAP REQUIRED IMPORTED_TARGET tclap)
+pkg_check_modules (UUID REQUIRED IMPORTED_TARGET uuid)
+
 #####################################################
 # Note: Third party libs like MFEM, FIDES, etc are 
 #       enabled when you provide MFEM_DIR, etc

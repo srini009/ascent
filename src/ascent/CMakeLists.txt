@@ -449,7 +449,7 @@ endif()
 if(MPI_FOUND)
 
     # req'd libs
-    set(ascent_mpi_thirdparty_libs mpi conduit_relay_mpi)
+    set(ascent_mpi_thirdparty_libs mpi conduit_relay_mpi PkgConfig::AMS_CLIENT PkgConfig::UUID nlohmann_json::nlohmann_json PkgConfig::TCLAP)
 
     if (BABELFLOW_FOUND)
       if(CMAKE_BUILD_TYPE STREQUAL "DEBUG")
