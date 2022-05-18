@@ -92,7 +92,7 @@ if(MPI_FOUND)
     include_directories("tools")
 
 
-    set(kripke_par_deps ascent_mpi mpi)
+    set(kripke_par_deps ascent_mpi mpi PkgConfig::AMS_CLIENT PkgConfig::UUID nlohmann_json::nlohmann_json PkgConfig::TCLAP)
     if(OPENMP_FOUND)
            list(APPEND kripke_par_deps openmp)
     endif()
