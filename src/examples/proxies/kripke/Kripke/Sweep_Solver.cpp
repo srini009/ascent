@@ -353,6 +353,7 @@ void writeAscentData(Ascent &ascent, Grid_Data *grid_data, int timeStep)
   total_part_time += end_part;
   total_allreduce_time += end_ts;
   if(myid == 0) {
+	std::cerr << "DATA SIZE: " << (data.to_string()).size() << std::endl;
        	std::cout << "======================================================" << std::endl;
        	std::cout << "Current Total time: " << total_time  << std::endl;
        	std::cout << "Current Total partitioning cost: " << total_part_time << std::endl; 
