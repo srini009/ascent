@@ -47,7 +47,7 @@
 # file: src/examples/CMakeLists.txt
 #
 ###############################################################################
-add_subdirectory(proxies/lulesh2.0.3)
+#add_subdirectory(proxies/lulesh2.0.3)
 add_subdirectory(proxies/kripke)
 add_subdirectory(proxies/cloverleaf3d-ref)
 add_subdirectory(synthetic/noise)

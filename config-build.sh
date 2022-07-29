@@ -59,7 +59,7 @@ cd build-debug
 #------------------------------------------------------------------------------
 # setup desired basic cmake options
 #------------------------------------------------------------------------------
-export CMAKE_OPTS=" -DCMAKE_BUILD_TYPE=Debug"
+export CMAKE_OPTS=" -DCMAKE_BUILD_TYPE=Debug -DBLT_CXX_STD=c++14 -DENABLE_PYTHON:BOOL=OFF -DENABLE_FORTRAN:BOOL=OFF -DCONDUIT_DIR=`spack location -i conduit`"
 export CMAKE_OPTS="$CMAKE_OPTS -DCMAKE_INSTALL_PREFIX=../install-debug"
 
 #------------------------------------------------------------------------------
